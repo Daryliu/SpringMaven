@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 注册Bean-->
+    <bean id="userService" class="com.ldy.service.UserServiceImpl" />
+    <bean id="log" class="com.ldy.log.Log" />
+    <bean id="afterLog" class="com.ldy.log.AfterLog"/>
+
+    <!-- 配置aop-->
+    <aop:config>
+        <!-- 切入点 execution(要执行的位置 * * * * *)-->
+        <aop:pointcut id="pointcut" expression="execution(* com.ldy.service.UserServiceImpl.*(..))"/>
+        <!-- 执行环绕增加-->
+        <aop:advisor advice-ref="log" pointcut-ref="pointcut" />
+        <aop:advisor advice-ref="afterLog" pointcut-ref="pointcut" />
+    </aop:config>
+
+    <!-- 后台访问拦截器 -->
+
+    <!--	 <mvc:interceptors>-->
+    <!--		<mvc:interceptor>-->
+    <!--			<mvc:mapping path="/**"/>-->
+    <!--			&lt;!&ndash;<mvc:mapping path="/grade/*"/>&ndash;&gt;-->
+    <!--			<mvc:exclude-mapping path="/system/login"/>-->
+    <!--			<mvc:exclude-mapping path="/system/get_cpacha"/>-->
+    <!--			<mvc:exclude-mapping path="/h-ui/**"/>-->
+    <!--			<mvc:exclude-mapping path="/easyui/**"/>-->
+    <!--			<mvc:exclude-mapping path="/home-resources/**"/>-->
+    <!--			<mvc:exclude-mapping path="/home/**"/>-->
+    <!--			<bean class="com.qzh.interceptor.LoginInterceptor"></bean>-->
+    <!--		</mvc:interceptor>-->
+    <!--	</mvc:interceptors>-->
+</beans>
